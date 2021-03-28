@@ -19,7 +19,11 @@ public class Player : MonoBehaviour
     // Update is called once per  frame i e., 60 frames/sec
     void Update()
     {
+        CaclulateMovement();
+    }
 
+    private void CaclulateMovement()
+    {
         //Movement using horizontal
         float horizontalInput = Input.GetAxis("Horizontal");
 
@@ -41,9 +45,12 @@ public class Player : MonoBehaviour
         //transform.Translate(new Vector3(0, 1, 0) * _speed * verticalInput * Time.deltaTime);
 
         //For horizontal/vettical movement
-        transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed  * Time.deltaTime);
+        //transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed  * Time.deltaTime);
 
+        //Creating variable direction of type Vector3
+        Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
+        transform.Translate(direction * _speed * Time.deltaTime);
 
         //Moves to left..
         //transform.Translate(Vector3.left);
@@ -57,5 +64,28 @@ public class Player : MonoBehaviour
         //transform.Translate(Vector3.down); 
         //transform.Translate(new Vector3(0,-1,0)); // -1 y donwn
 
+        //Restricting on Y-Axis
+        //if player position  on y >= 0 then y position =0
+        //else if player position on y <-5.0f then set y position =-5.0f so it not move down further
+        if (transform.position.y >= 0)
+        {
+            transform.position = new Vector3(transform.position.x, 0, 0);
+        }
+        else if (transform.position.y <= -5.0f)
+        {
+            transform.position = new Vector3(transform.position.x, -5.0f, 0);
+        }
+
+        //Restricting on X-Axis
+        //if player position  on x >= 11 then x position = -11 so , it comes from another left x direction
+        //else if player position on X <= -11 then set x position = 11 so it move from another right x direction
+        if (transform.position.x >= 11.0f)
+        {
+            transform.position = new Vector3(-11.0f, transform.position.y, 0);
+        }
+        else if (transform.position.x <= -11.0f)
+        {
+            transform.position = new Vector3(11.0f, transform.position.y, 0);
+        }
     }
 }
