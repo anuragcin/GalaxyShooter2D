@@ -20,7 +20,7 @@ public class Laser : MonoBehaviour
         //Move Upwards -> translate up..
         transform.Translate(Vector3.up * _speed * Time.deltaTime);
 
-        //if laser poistion >= 6 on y , destroy the laser..
+        //if laser poistion >= 6 on y, destroy the laser..
         if (transform.position.y >= 6.0f)
         {
             Destroy(this.gameObject);

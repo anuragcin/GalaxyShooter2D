@@ -10,22 +10,28 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _laserPrefab;
 
-    
+    [SerializeField]
+    private float _fireRate = 0.5f;
+    private float _canFire = -1.0f;
+
+    [SerializeField]
+    private int _lives = 3;
+
     // Start is called before the first frame update
     void Start()
     {
         //take the current pos = new position(0,0,0);
         transform.position = new Vector3(0, 0, 0);
-
     }
 
     // Update is called once per  frame i e., 60 frames/sec
     void Update()
     {
-        CaclulateMovement();
+        CaclulateMovement();    
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         {
+            _canFire = Time.time + _fireRate;
             //Instantiate(_laserPrefab, transform.position,Quaternion.identity);
             // spawning laser at position on y axis at 0.8
             Instantiate(_laserPrefab, transform.position + new Vector3(0,0.8f,0),Quaternion.identity);
@@ -39,7 +45,7 @@ public class Player : MonoBehaviour
 
         //Movement using Vertical
         float verticalInput = Input.GetAxis("Vertical");
-
+    
         //Moves to right..
         //transform.Translate(Vector3.right);
         //transform.Translate(new Vector3(1,0,0)); // +1 x right (1 meter per frame in real world..)
@@ -98,4 +104,19 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(11.0f, transform.position.y, 0);
         }
     }
+
+    /// <summary>
+    /// Damaging the Player Lives.
+    /// </summary>
+    public void Damage()
+    {
+         _lives--;
+
+        //Check if dead & destroy the object
+        if (_lives < 1)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
 }
