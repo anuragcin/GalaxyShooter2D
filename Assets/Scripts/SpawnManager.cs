@@ -6,8 +6,6 @@ public class SpawnManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject _enemyPrefab;
-    //[SerializeField]
-    //private GameObject _tripleShotPrefab;
     [SerializeField]
     private GameObject _enemyContainer;
     [SerializeField]
@@ -19,7 +17,7 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(SpawnEnemyRoutine());
-        StartCoroutine(SpawnTripeShotRoutine());
+        StartCoroutine(SpawnPowerUpRoutine());
     }
 
     // Update is called once per frame
@@ -59,13 +57,13 @@ public class SpawnManager : MonoBehaviour
     /// Spawning TripleShot after 7 sec 
     /// </summary>
     /// <returns></returns>
-    private IEnumerator SpawnTripeShotRoutine()
+    private IEnumerator SpawnPowerUpRoutine()
     {
         while (_stopSpawning == false)
         {
             //Random spawnPosition from -11 to 11 on x-axis, 7 on Y-axis and 0 on z-axis
             Vector3 spawnPosition = new Vector3(Random.Range(-11.0f, 11.0f), 7, 0);
-            int randomPowerUp = Random.Range(0, 2);
+            int randomPowerUp = Random.Range(0, 3);
             //Instantiate an GameObject-EnemyPrefab
             Instantiate(_powerUps[randomPowerUp], spawnPosition, Quaternion.identity);
             
