@@ -40,6 +40,7 @@ public class PowerUp : MonoBehaviour
             {
                 player.TripleShotActive();
             }
+
             Destroy(this.gameObject);
         }
     }
