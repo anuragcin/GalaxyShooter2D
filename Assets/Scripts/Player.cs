@@ -8,6 +8,9 @@ public class Player : MonoBehaviour
     private float _speed = 3.5f;
 
     [SerializeField]
+    private float _speedMultipler = 2.0f;
+
+    [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
     private GameObject _tripleShotPrefab;
@@ -23,6 +26,9 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private bool _isTripleShotActive = false;
+
+    [SerializeField]
+    private bool _isSpeedPowerUpActive = false;
 
     // Start is called before the first frame update
     void Start()
@@ -160,5 +166,22 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5.0f);
         _isTripleShotActive = false;
+    }
+
+    public void SpeedPowerUpActive()
+    {
+        _isSpeedPowerUpActive = true;
+        _speed *= _speedMultipler;
+        //Starts the coroutune
+        StartCoroutine(SpeedPowerUpDownRoutine());
+
+    }
+
+
+    IEnumerator SpeedPowerUpDownRoutine()
+    {
+        yield return new WaitForSeconds(7.0f);
+        _isSpeedPowerUpActive = false;
+        _speed /= _speedMultipler;
     }
 }
