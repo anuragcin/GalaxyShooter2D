@@ -24,11 +24,13 @@ public class Player : MonoBehaviour
 
     private SpawnManager _spawnManager;
 
-    [SerializeField]
     private bool _isTripleShotActive = false;
+    private bool _isSpeedPowerUpActive = false;
+    private bool _isShieldPowerUpActive = false;
 
     [SerializeField]
-    private bool _isSpeedPowerUpActive = false;
+    private GameObject _ShieldVisualer;
+
 
     // Start is called before the first frame update
     void Start()
@@ -142,7 +144,13 @@ public class Player : MonoBehaviour
     /// </summary>
     public void Damage()
     {
-         _lives--;
+        if (_isShieldPowerUpActive)
+        {
+            _isShieldPowerUpActive = false;
+            _ShieldVisualer.SetActive(false);
+            return;
+        }
+        _lives--;
 
         //Check if dead & destroy the object
         if (_lives < 1)
@@ -177,11 +185,16 @@ public class Player : MonoBehaviour
 
     }
 
-
     IEnumerator SpeedPowerUpDownRoutine()
     {
         yield return new WaitForSeconds(7.0f);
         _isSpeedPowerUpActive = false;
         _speed /= _speedMultipler;
+    }
+
+    public void ShieldPowerUpActive()
+    {
+        _isShieldPowerUpActive = true;
+        _ShieldVisualer.SetActive(true);
     }
 }

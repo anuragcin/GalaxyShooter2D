@@ -56,6 +56,7 @@ public class PowerUp : MonoBehaviour
                         break;
                     case 2:
                         // Shield PowerUp
+                        player.ShieldPowerUpActive();
                         Debug.Log("Shield PowerUp Collected");
                         break;
                     default:
