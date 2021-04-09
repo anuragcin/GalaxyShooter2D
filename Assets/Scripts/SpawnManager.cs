@@ -6,13 +6,15 @@ public class SpawnManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject _enemyPrefab;
-    [SerializeField]
-    private GameObject _tripleShotPrefab;
+    //[SerializeField]
+    //private GameObject _tripleShotPrefab;
     [SerializeField]
     private GameObject _enemyContainer;
     [SerializeField]
     private bool _stopSpawning = false;
 
+    [SerializeField]
+    private List<GameObject> _powerUps;
     // Start is called before the first frame update
     void Start()
     {
@@ -63,11 +65,11 @@ public class SpawnManager : MonoBehaviour
         {
             //Random spawnPosition from -11 to 11 on x-axis, 7 on Y-axis and 0 on z-axis
             Vector3 spawnPosition = new Vector3(Random.Range(-11.0f, 11.0f), 7, 0);
-
+            int randomPowerUp = Random.Range(0, 2);
             //Instantiate an GameObject-EnemyPrefab
-            Instantiate(_tripleShotPrefab, spawnPosition, Quaternion.identity);
+            Instantiate(_powerUps[randomPowerUp], spawnPosition, Quaternion.identity);
             
-            yield return new WaitForSeconds(7.0f);
+            yield return new WaitForSeconds(Random.Range(3,8));
 
         }
     }
