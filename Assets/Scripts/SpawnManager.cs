@@ -20,14 +20,6 @@ public class SpawnManager : MonoBehaviour
         StartCoroutine(SpawnPowerUpRoutine());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
-
     /// <summary>
     ///Spawn Game Object every 5 seconds
     ///Create a Co-routine of type IEnumerator that will yield events
