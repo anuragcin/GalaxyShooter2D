@@ -7,10 +7,16 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float _speed = 4.0f;
 
+    Player player;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GameObject.Find("Player").GetComponent<Player>();
+        if (player == null)
+        {
+            Debug.LogError("Player cannot be null");
+        }
     }
 
     // Update is called once per frame
@@ -48,6 +54,11 @@ public class Enemy : MonoBehaviour
         {
 
             Destroy(other.gameObject);
+
+            //Random Score Points and Call AddScore Method on Enemy using player object.
+            int randScorePoints = Random.Range(1, 30);
+            player.AddScore(10);
+
             Destroy(this.gameObject);
         }
         Debug.Log("Collide With " + other.transform.name);
