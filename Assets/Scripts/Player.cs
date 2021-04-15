@@ -46,10 +46,12 @@ public class Player : MonoBehaviour
         //find the GameObject and get the Component
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
         if (_spawnManager == null)
         {
             Debug.LogError("SpawnManager cannot be null");
         }
+
         if (_uiManager == null)
         {
             Debug.LogError("UIManager cannot be null");
