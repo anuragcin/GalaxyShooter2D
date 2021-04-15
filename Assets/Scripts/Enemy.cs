@@ -7,15 +7,25 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float _speed = 4.0f;
 
-    Player player;
+    Player _player;
+
+    Animator _anim;
 
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
-        if (player == null)
+        _player = GameObject.Find("Player").GetComponent<Player>();
+
+        _anim = GetComponent<Animator>();
+
+        if (_player == null)
         {
             Debug.LogError("Player cannot be null");
+        }
+
+        if (_anim == null)
+        {
+            Debug.LogError("Animator cannot be null");
         }
     }
 
@@ -46,7 +56,10 @@ public class Enemy : MonoBehaviour
             {
                 player.Damage();
             }
-            Destroy(this.gameObject);
+            _anim.SetTrigger("OnEnemyDeath");
+            _speed = 0;
+
+            Destroy(this.gameObject,2.4f);
         }
         //if Other is laser
         //destroy the laser and then destrot the enemy - ( us )
@@ -57,9 +70,12 @@ public class Enemy : MonoBehaviour
 
             //Random Score Points and Call AddScore Method on Enemy using player object.
             int randScorePoints = Random.Range(1, 30);
-            player.AddScore(10);
+            _player.AddScore(10);
 
-            Destroy(this.gameObject);
+            _anim.SetTrigger("OnEnemyDeath");
+            _speed = 0;
+
+            Destroy(this.gameObject,2.4f);
         }
         Debug.Log("Collide With " + other.transform.name);
     }
