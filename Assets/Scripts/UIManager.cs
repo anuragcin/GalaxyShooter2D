@@ -26,6 +26,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         _scoreText.text = "Score: " + 0;
+
         _liveDisplayImage.sprite = _liveSprite[3];
         _gameoverText.gameObject.SetActive(false);
 
