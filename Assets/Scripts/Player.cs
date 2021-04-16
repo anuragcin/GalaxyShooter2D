@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         //take the current pos = new position(0,0,0);
-        transform.position = new Vector3(0, 0, 0);
+        //transform.position = new Vector3(0, 0, 0);
 
         //find the GameObject and get the Component
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();

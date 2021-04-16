@@ -13,8 +13,14 @@ public class SpawnManager : MonoBehaviour
 
     [SerializeField]
     private List<GameObject> _powerUps;
+
     // Start is called before the first frame update
     void Start()
+    {
+        
+    }
+
+    public void StartSpawning()
     {
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerUpRoutine());
@@ -30,6 +36,8 @@ public class SpawnManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator SpawnEnemyRoutine()
     {
+        yield return new WaitForSeconds(5.0f);// breathing room for spawning objects..
+
         while (_stopSpawning == false)
         {
             //Random spawnPosition from -11 to 11 on x-axis, 7 on Y-axis and 0 on z-axis
