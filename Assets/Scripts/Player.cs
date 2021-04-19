@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnManager;
 
     private bool _isTripleShotActive = false;
-    private bool _isSpeedPowerUpActive = false;
+    public bool _isSpeedPowerUpActive = false;
     private bool _isShieldPowerUpActive = false;
 
     [SerializeField]
