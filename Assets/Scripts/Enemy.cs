@@ -7,11 +7,17 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float _speed = 4.0f;
 
+    [SerializeField]
+    private GameObject _laserPrefab;
+
     Player _player;
 
     Animator _anim;
 
     AudioSource _audioSource;
+
+    private float _fireRate = 3.0f;
+    private float _canFire = -1;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +47,28 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CaculateMovement();
+
+        if (Time.time > _canFire)
+        {
+            _fireRate = Random.Range(3f, 7f);
+            _canFire = Time.time + _fireRate;
+
+            GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+
+            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+
+            for (int i = 0; i < lasers.Length; i++)
+            {
+                lasers[i].AssignEnemyLaser();
+            }
+        }
+
+
+    }
+
+    private void CaculateMovement()
+    {
         //moves down 4 meters per sec.
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
@@ -49,7 +77,7 @@ public class Enemy : MonoBehaviour
         {
             // re-spawm at top of screen at random x - position
             float posXRandom = Random.Range(-10.0f, 10.0f);
-            transform.position = new Vector3(posXRandom , 6.3f, 0);
+            transform.position = new Vector3(posXRandom, 6.3f, 0);
         }
     }
 
@@ -76,7 +104,7 @@ public class Enemy : MonoBehaviour
         if (other.tag == "Laser")
         {
 
-            Destroy(other.gameObject);
+            //Destroy(other.gameObject);
 
             //Random Score Points and Call AddScore Method on Enemy using player object.
             int randScorePoints = Random.Range(1, 30);
@@ -86,6 +114,8 @@ public class Enemy : MonoBehaviour
             _speed = 0;
 
             _audioSource.Play();
+
+            Destroy(GetComponent<Collider2D>());
             Destroy(this.gameObject,2.4f);
         }
         Debug.Log("Collide With " + other.transform.name);
