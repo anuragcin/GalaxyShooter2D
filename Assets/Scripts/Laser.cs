@@ -27,8 +27,6 @@ public class Laser : MonoBehaviour
         {
             MoveDown();
         }
-        
-
     }
 
     private void MoveUp()
@@ -72,5 +70,17 @@ public class Laser : MonoBehaviour
     {
         _isEnemyLaser = true;
        
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag=="Player" && _isEnemyLaser)
+        {
+            Player player = other.GetComponent<Player>();
+            if (player != null)
+            {
+                player.Damage();
+            }
+        }
     }
 }
