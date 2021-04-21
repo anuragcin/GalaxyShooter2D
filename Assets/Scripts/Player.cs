@@ -49,9 +49,6 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //take the current pos = new position(0,0,0);
-        //transform.position = new Vector3(0, 0, 0);
-
         //find the GameObject and get the Component
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
@@ -117,39 +114,10 @@ public class Player : MonoBehaviour
         //Movement using Vertical
         float verticalInput = Input.GetAxis("Vertical");
     
-        //Moves to right..
-        //transform.Translate(Vector3.right);
-        //transform.Translate(new Vector3(1,0,0)); // +1 x right (1 meter per frame in real world..)
-
-        // To move from 1 meter per frame to 1 meter per sec need to incorporate using time.deltaTime
-        //transform.Translate(Vector3.right * Time.deltaTime); // now moving 1 meter per second.
-        //transform.Translate(Vector3.right * 5 * Time.deltaTime); // now moving 5 meter per second.
-
-        // To move based on horizontaly->> new Vector3(1, 0, 0) * _speed * horizontalInput *Time.deltaTime
-        //transform.Translate(new Vector3(1, 0, 0) * _speed * horizontalInput *Time.deltaTime);
-
-        // To move based on vertical->> new Vector3(0, 1, 0) * _speed * verticalInput *Time.deltaTime
-        //transform.Translate(new Vector3(0, 1, 0) * _speed * verticalInput * Time.deltaTime);
-
-        //For horizontal/vettical movement
-        //transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed  * Time.deltaTime);
-
         //Creating variable direction of type Vector3
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
         transform.Translate(direction * _speed * Time.deltaTime);
-
-        //Moves to left..
-        //transform.Translate(Vector3.left);
-        //transform.Translate(new Vector3(-1,0,0)); //-1 x left
-
-        //Moves to up..
-        //transform.Translate(Vector3.up); 
-        //transform.Translate(new Vector3(0,1,0)); // +1 y up
-
-        //Moves to down..
-        //transform.Translate(Vector3.down); 
-        //transform.Translate(new Vector3(0,-1,0)); // -1 y donwn
 
         //Restricting on Y-Axis
         //if player position  on y >= 0 then y position =0
