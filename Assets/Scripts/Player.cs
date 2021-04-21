@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _increasedRate = 5.0f;
 
+    private int _shieldStrength;
+
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
@@ -167,11 +169,28 @@ public class Player : MonoBehaviour
     {
         if (_isShieldPowerUpActive)
         {
-            _isShieldPowerUpActive = false;
-            _ShieldVisualer.SetActive(false);
+            _shieldStrength--;
+
+            switch (_shieldStrength)
+            {
+                case 2:
+                    _ShieldVisualer.GetComponent<Renderer>().material.color = Color.green;
+                    break;
+                case 1:
+                    _ShieldVisualer.GetComponent<Renderer>().material.color = Color.red;
+                    break;
+                case 0:
+                    _isShieldPowerUpActive = false;
+                    _ShieldVisualer.SetActive(false);
+                    break;
+                default:
+                    break;
+            }
             return;
         }
         _lives--;
+
+        Debug.Log("Player lives"+ _lives);
 
         if (_lives == 2)
         {
@@ -228,7 +247,11 @@ public class Player : MonoBehaviour
     public void ShieldPowerUpActive()
     {
         _isShieldPowerUpActive = true;
+        _shieldStrength = 3;
+        _ShieldVisualer.GetComponent<Renderer>().material.color = Color.gray;
         _ShieldVisualer.SetActive(true);
+        
+        
     }
 
     public void AddScore(int points)
