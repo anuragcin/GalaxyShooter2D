@@ -11,6 +11,9 @@ public class Player : MonoBehaviour
     private float _speedMultipler = 2.0f;
 
     [SerializeField]
+    private float _increasedRate = 5.0f;
+
+    [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
     private GameObject _tripleShotPrefab;
@@ -117,7 +120,20 @@ public class Player : MonoBehaviour
         //Creating variable direction of type Vector3
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
+        //When LeftShift key is pressed call ActivateThruster method
+        //else when release called DeactivateThruster method
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            ActivateThruster();
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            DeactivateThruster();
+        }
+       
         transform.Translate(direction * _speed * Time.deltaTime);
+        
+        
 
         //Restricting on Y-Axis
         //if player position  on y >= 0 then y position =0
@@ -219,6 +235,22 @@ public class Player : MonoBehaviour
     {
         _score += points;
         _uiManager.UpdateScore(_score);
+    }
+
+    /// <summary>
+    /// Increase the speed with increaseRate
+    /// </summary>
+    public void ActivateThruster()
+    {
+        _speed *= _increasedRate;
+    }
+
+    /// <summary>
+    /// Reduce back to the normal Speed 
+    /// </summary>
+    public void DeactivateThruster()
+    {
+        _speed /= _increasedRate;
     }
 
 } 
