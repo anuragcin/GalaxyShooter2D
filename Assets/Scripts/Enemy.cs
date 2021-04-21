@@ -11,9 +11,7 @@ public class Enemy : MonoBehaviour
     private GameObject _laserPrefab;
 
     Player _player;
-
     Animator _anim;
-
     AudioSource _audioSource;
 
     private float _fireRate = 3.0f;
@@ -64,7 +62,6 @@ public class Enemy : MonoBehaviour
             }
         }
 
-
     }
 
     private void CaculateMovement()
@@ -104,7 +101,7 @@ public class Enemy : MonoBehaviour
         if (other.tag == "Laser")
         {
 
-            //Destroy(other.gameObject);
+            Destroy(other.gameObject);
 
             //Random Score Points and Call AddScore Method on Enemy using player object.
             int randScorePoints = Random.Range(1, 30);
