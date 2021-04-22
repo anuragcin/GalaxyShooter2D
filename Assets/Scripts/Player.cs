@@ -43,6 +43,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _score;
 
+    [SerializeField]
+    private int _ammoCount;
+
     private UIManager _uiManager;
 
     [SerializeField]
@@ -57,7 +60,6 @@ public class Player : MonoBehaviour
         //find the GameObject and get the Component
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
-
         _audioSource = GetComponent<AudioSource>();
 
         if (_spawnManager == null)
@@ -69,6 +71,10 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("UIManager cannot be null");
         }
+        else
+        {
+            _ammoCount = _uiManager.TotalAmmoCount();
+        }
 
         if (_audioSource==null)
         {
@@ -78,6 +84,8 @@ public class Player : MonoBehaviour
         {
             _audioSource.clip = _laserAudioClip;
         }
+
+
     }
 
     // Update is called once per  frame i e., 60 frames/sec
@@ -85,7 +93,7 @@ public class Player : MonoBehaviour
     {
         CaclulateMovement();    
 
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _ammoCount>0)
         {
             FireLaser();
         }
@@ -99,10 +107,12 @@ public class Player : MonoBehaviour
         if (_isTripleShotActive)
         {
             Instantiate(_tripleShotPrefab, transform.position + new Vector3(0, 1.02f, 0), Quaternion.identity);
+            AmmoFire(3); //three lasers shot
         }
         else
         {
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.02f, 0), Quaternion.identity);
+            AmmoFire(1); //one laser shot
         }
 
         if (_audioSource != null)
@@ -274,6 +284,16 @@ public class Player : MonoBehaviour
     public void DeactivateThruster()
     {
         _speed /= _increasedRate;
+    }
+    /// <summary>
+    /// Ammo Fire and updated ammocount to uiManager
+    /// </summary>
+    /// <param name="LaserCount"></param>
+    public void AmmoFire(int LaserCount)
+    {
+        _ammoCount = _ammoCount - LaserCount;
+        _uiManager.UpdateAmmoCount(_ammoCount);
+       
     }
 
 } 
