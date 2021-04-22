@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,9 @@ public class UIManager : MonoBehaviour
     private Text _scoreText;
 
     [SerializeField]
+    private Text _ammoCount;
+
+    [SerializeField]
     private List<Sprite> _liveSprite;
 
     [SerializeField]
@@ -17,6 +21,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private Text _gameoverText;
+
+    private int _totalAmmoCount = 15;
 
     [SerializeField]
     private Text _restartText;
@@ -26,6 +32,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         _scoreText.text = "Score: " + 0;
+        _ammoCount.text = "Total Ammo:" + _totalAmmoCount; 
 
         _liveDisplayImage.sprite = _liveSprite[3];
         _gameoverText.gameObject.SetActive(false);
@@ -72,6 +79,44 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
         
+    }
+
+    /// <summary>
+    /// Total Ammo Count
+    /// </summary>
+    /// <returns></returns>
+    public int TotalAmmoCount()
+    {
+        return _totalAmmoCount;
+    }
+
+    /// <summary>
+    /// Update the Ammo Count
+    /// </summary>
+    /// <param name="ammoCount"></param>
+    public void UpdateAmmoCount(int ammoCount)
+    {
+        _ammoCount.text = "Total Ammo:" + ammoCount;
+        if (ammoCount==0)
+        {
+            StartCoroutine(FlashingTotalAmmoCount());
+        }
+    }
+
+    /// <summary>
+    /// Flashing Ammo Count when Count =0
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator FlashingTotalAmmoCount()
+    {
+        while (true)
+        {
+            _ammoCount.text = "Total Ammo: 0";
+            yield return new WaitForSeconds(0.5f);
+            _ammoCount.text = "";
+            yield return new WaitForSeconds(0.5f);
+        }
+
     }
 
 }
