@@ -616,6 +616,8 @@ MonoBehaviour:
   _fireRate: 0.5
   _lives: 3
   _isSpeedPowerUpActive: 0
+  _isAmmoPowerUpActive: 0
+  _isHealthPowerUpActive: 0
   _ShieldVisualer: {fileID: 332306048}
   _rightEngine: {fileID: 79845974}
   _leftEngine: {fileID: 718075113}
@@ -2083,7 +2085,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &3754542650723383935
+--- !u!1001 &2366646486418790532
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -2149,6 +2151,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Health_PowerUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3754542650116272850, guid: da21600c757ae4e2691686f5a7fa8023,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da21600c757ae4e2691686f5a7fa8023, type: 3}
