@@ -32,7 +32,8 @@ public class Player : MonoBehaviour
     private bool _isTripleShotActive = false;
     public bool _isSpeedPowerUpActive = false;
     private bool _isShieldPowerUpActive = false;
-    private bool _isAmmoPowerUpActive = false;
+    public bool _isAmmoPowerUpActive = false;
+    public bool _isHealthPowerUpActive = false;
 
 
     [SerializeField]
@@ -276,7 +277,33 @@ public class Player : MonoBehaviour
         _uiManager.UpdateAmmoCount(_ammoCount);
     }
 
-
+    /// <summary>
+    /// Update the health of the player
+    /// </summary>
+    public void HealthPowerUpActive()
+    {
+        _isHealthPowerUpActive = true;
+        if (_lives < 3)
+        {
+            _lives++;
+            if (_lives == 2)
+            {
+                _leftEngine.SetActive(true);
+                _rightEngine.SetActive(false);
+            }
+            else if (_lives == 1)
+            {
+                _rightEngine.SetActive(true);
+            }
+            else
+            {
+                _leftEngine.SetActive(false);
+                _rightEngine.SetActive(false);
+            }
+            _uiManager.UpdateLives(_lives);
+        }
+        
+    }
         public void AddScore(int points)
     {
         _score += points;
@@ -308,5 +335,7 @@ public class Player : MonoBehaviour
         _uiManager.UpdateAmmoCount(_ammoCount);
        
     }
+
+    
 
 } 
