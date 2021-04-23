@@ -55,7 +55,7 @@ public class SpawnManager : MonoBehaviour
         {
             //Random spawnPosition from -11 to 11 on x-axis, 7 on Y-axis and 0 on z-axis
             Vector3 spawnPosition = new Vector3(Random.Range(-11.0f, 11.0f), 7, 0);
-            int randomPowerUp = Random.Range(0, 4);
+            int randomPowerUp = Random.Range(0, 5);
             //Instantiate an GameObject-EnemyPrefab
             Instantiate(_powerUps[randomPowerUp], spawnPosition, Quaternion.identity);
             
