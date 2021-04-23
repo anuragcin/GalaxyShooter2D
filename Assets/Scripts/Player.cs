@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
     private bool _isTripleShotActive = false;
     public bool _isSpeedPowerUpActive = false;
     private bool _isShieldPowerUpActive = false;
+    private bool _isAmmoPowerUpActive = false;
+
 
     [SerializeField]
     private GameObject _ShieldVisualer;
@@ -264,7 +266,18 @@ public class Player : MonoBehaviour
         
     }
 
-    public void AddScore(int points)
+    /// <summary>
+    /// Update the Ammo Count back to 15 
+    /// </summary>
+    public void AmmoPowerUpActive()
+    {
+        _isAmmoPowerUpActive = true;
+        _ammoCount = 15;
+        _uiManager.UpdateAmmoCount(_ammoCount);
+    }
+
+
+        public void AddScore(int points)
     {
         _score += points;
         _uiManager.UpdateScore(_score);
