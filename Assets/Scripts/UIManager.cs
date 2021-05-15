@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Text _gameoverText;
 
-    private int _totalAmmoCount = 15;
+    private int _totalAmmoCount = 100;
 
     [SerializeField]
     private Text _restartText;

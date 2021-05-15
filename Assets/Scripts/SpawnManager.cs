@@ -55,9 +55,22 @@ public class SpawnManager : MonoBehaviour
         {
             //Random spawnPosition from -11 to 11 on x-axis, 7 on Y-axis and 0 on z-axis
             Vector3 spawnPosition = new Vector3(Random.Range(-11.0f, 11.0f), 7, 0);
-            int randomPowerUp = Random.Range(0, 5);
+
+            
+
+            float proabilityValue = Random.value;
             //Instantiate an GameObject-EnemyPrefab
-            Instantiate(_powerUps[randomPowerUp], spawnPosition, Quaternion.identity);
+            if (proabilityValue < 0.5f) //80%
+            {
+                Debug.Log("Probability 80%");
+                int randomPowerUp = Random.Range(0, _powerUps.Count - 1);
+                Instantiate(_powerUps[randomPowerUp], spawnPosition, Quaternion.identity);
+            }
+            else if (proabilityValue > 0.5) //30%
+            {
+                Debug.Log("Probability 30%"); 
+                Instantiate(_powerUps[_powerUps.Count-1], spawnPosition, Quaternion.identity);
+            }
             
             yield return new WaitForSeconds(Random.Range(3,8));
 

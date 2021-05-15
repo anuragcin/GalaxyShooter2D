@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,19 +11,31 @@ public class Laser : MonoBehaviour
 
     private bool _isEnemyLaser = false;
 
+    [SerializeField]
+    private int _LaserID; //0 for Laser and 1 for Secondary Missile
+
     // Update is called once per frame
     void Update()
     {
-        if (!_isEnemyLaser)
+        if (_LaserID == 0)
+        {
+            if (!_isEnemyLaser)
+            {
+                MoveUp();
+            }
+            else
+            {
+                MoveDown();
+            }
+        }
+        else if (_LaserID==1)
         {
             MoveUp();
         }
-        else if (_isEnemyLaser)
-        {
-            MoveDown();
-        }
+        
     }
 
+    
     private void MoveUp()
     {
         //Move Upwards -> translate up..
