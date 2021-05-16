@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     private GameObject _laserPrefab;
     [SerializeField]
     private GameObject _tripleShotPrefab;
+    [SerializeField]
+    private GameObject _secMissilePrefab;
 
     [SerializeField]
     private float _fireRate = 0.5f;
@@ -34,7 +36,7 @@ public class Player : MonoBehaviour
     private bool _isShieldPowerUpActive = false;
     public bool _isAmmoPowerUpActive = false;
     public bool _isHealthPowerUpActive = false;
-
+    public bool _isSecondaryPowerUpActive = false;
 
     [SerializeField]
     private GameObject _ShieldVisualer;
@@ -111,6 +113,11 @@ public class Player : MonoBehaviour
         {
             Instantiate(_tripleShotPrefab, transform.position + new Vector3(0, 1.02f, 0), Quaternion.identity);
             AmmoFire(3); //three lasers shot
+        }
+        else if (_isSecondaryPowerUpActive)
+        {
+            Instantiate(_secMissilePrefab, transform.position + new Vector3(0, 1.02f, 0), Quaternion.identity);
+            //AmmoFire(1); //one lasers shot
         }
         else
         {
@@ -241,6 +248,22 @@ public class Player : MonoBehaviour
         _isTripleShotActive = false;
     }
 
+    public void SecondaryPowerUpActive()
+    {
+        _isSecondaryPowerUpActive = true;
+
+        //Starts the coroutune
+        StartCoroutine(SecondaryPowerDownRoutine());
+
+    }
+
+
+    IEnumerator SecondaryPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _isSecondaryPowerUpActive = false;
+    }
+
     public void SpeedPowerUpActive()
     {
         _isSpeedPowerUpActive = true;
@@ -273,7 +296,7 @@ public class Player : MonoBehaviour
     public void AmmoPowerUpActive()
     {
         _isAmmoPowerUpActive = true;
-        _ammoCount = 15;
+        _ammoCount = 100;
         _uiManager.UpdateAmmoCount(_ammoCount);
     }
 

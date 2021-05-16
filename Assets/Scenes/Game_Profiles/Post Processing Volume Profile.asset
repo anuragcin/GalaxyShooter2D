@@ -68,10 +68,10 @@ MonoBehaviour:
     value: 1
   temperature:
     overrideState: 1
-    value: -100
+    value: -92
   tint:
     overrideState: 1
-    value: 54
+    value: 77
   colorFilter:
     overrideState: 1
     value: {r: 1, g: 1, b: 1, a: 1}

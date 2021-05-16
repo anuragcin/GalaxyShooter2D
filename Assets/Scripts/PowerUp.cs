@@ -77,6 +77,11 @@ public class PowerUp : MonoBehaviour
                         player.HealthPowerUpActive();
                         Debug.Log("Health PowerUp Collected");
                         break;
+                    case 5:
+                        // Secondary PowerUp
+                        player.SecondaryPowerUpActive();
+                        Debug.Log("Secondary PowerUp Collected");
+                        break;
                     default:
                         Debug.Log("Default..");
                         break;
