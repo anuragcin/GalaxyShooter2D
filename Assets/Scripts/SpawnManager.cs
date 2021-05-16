@@ -60,13 +60,13 @@ public class SpawnManager : MonoBehaviour
 
             float proabilityValue = Random.value;
             //Instantiate an GameObject-EnemyPrefab
-            if (proabilityValue < 0.5f) //80%
+            if (proabilityValue < 0.8f) //80%
             {
                 Debug.Log("Probability 80%");
                 int randomPowerUp = Random.Range(0, _powerUps.Count - 1);
                 Instantiate(_powerUps[randomPowerUp], spawnPosition, Quaternion.identity);
             }
-            else if (proabilityValue > 0.5) //30%
+            else if (proabilityValue > 0.7) //30%
             {
                 Debug.Log("Probability 30%"); 
                 Instantiate(_powerUps[_powerUps.Count-1], spawnPosition, Quaternion.identity);
