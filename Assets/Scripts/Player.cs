@@ -1,12 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    private float _speed = 3.5f;
-
+    private float _speed;
+    private float _baseSpeed = 3.5f;
+    
     [SerializeField]
     private float _speedMultipler = 2.0f;
 
@@ -58,6 +60,14 @@ public class Player : MonoBehaviour
 
     private AudioSource _audioSource;
 
+    private bool _isThrusterActive = false;
+    private bool _isThrusterDowm = false;
+
+    private float _thrusterFullScale = 10f;
+    private float _thrusterElaspedTime = 0;
+
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -66,7 +76,7 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
-
+        _baseSpeed = 3.5f;
         if (_spawnManager == null)
         {
             Debug.LogError("SpawnManager cannot be null");
@@ -79,6 +89,7 @@ public class Player : MonoBehaviour
         else
         {
             _ammoCount = _uiManager.TotalAmmoCount();
+            _uiManager.UpdateThrusterScale(_thrusterElaspedTime, _thrusterFullScale);
         }
 
         if (_audioSource==null)
@@ -144,7 +155,7 @@ public class Player : MonoBehaviour
 
         //When LeftShift key is pressed call ActivateThruster method
         //else when release called DeactivateThruster method
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) && (!_isThrusterDowm))
         {
             ActivateThruster();
         }
@@ -152,7 +163,9 @@ public class Player : MonoBehaviour
         {
             DeactivateThruster();
         }
-       
+
+        UpdateThrusterScale(); 
+
         transform.Translate(direction * _speed * Time.deltaTime);
         
         
@@ -179,6 +192,35 @@ public class Player : MonoBehaviour
         else if (transform.position.x <= -11.0f)
         {
             transform.position = new Vector3(11.0f, transform.position.y, 0);
+        }
+
+
+    }
+
+    private void UpdateThrusterScale()
+    {
+        if (_isThrusterActive)
+        {
+            _thrusterElaspedTime = _thrusterElaspedTime + Time.deltaTime;
+            if (_thrusterElaspedTime > _thrusterFullScale)
+            {
+                _thrusterElaspedTime = _thrusterFullScale;
+                _speed = _baseSpeed;
+                _isThrusterDowm = true;
+                _isThrusterActive = false;
+            }
+            _uiManager.UpdateThrusterScale(_thrusterElaspedTime, _thrusterFullScale);
+        }
+        else if (_isThrusterActive == false && _thrusterElaspedTime > 0)
+        {
+            _thrusterElaspedTime = _thrusterElaspedTime - Time.deltaTime;
+            if (_thrusterElaspedTime < 0)
+            {
+                _thrusterElaspedTime = 0;
+                _isThrusterDowm = false;
+      
+            }
+            _uiManager.UpdateThrusterScale(_thrusterElaspedTime, _thrusterFullScale);
         }
     }
 
@@ -339,6 +381,9 @@ public class Player : MonoBehaviour
     public void ActivateThruster()
     {
         _speed *= _increasedRate;
+        _isThrusterActive = true;
+
+
     }
 
     /// <summary>
@@ -346,7 +391,9 @@ public class Player : MonoBehaviour
     /// </summary>
     public void DeactivateThruster()
     {
-        _speed /= _increasedRate;
+
+        _speed = _baseSpeed;
+        _isThrusterActive = false;
     }
     /// <summary>
     /// Ammo Fire and updated ammocount to uiManager
@@ -358,7 +405,5 @@ public class Player : MonoBehaviour
         _uiManager.UpdateAmmoCount(_ammoCount);
        
     }
-
-    
 
 } 

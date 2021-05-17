@@ -27,6 +27,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Text _restartText;
 
+    [SerializeField]
+    private Slider _slider;
+  
     private GameManager _gameManager;
     // Start is called before the first frame update
     void Start()
@@ -117,6 +120,38 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
+    }
+
+    public void UpdateThrusterScale(float elaspedTime, float thrusterScale)
+    {
+        if (_slider.maxValue != thrusterScale)
+        {
+            _slider.maxValue = thrusterScale;
+        }
+
+        thrusterScale = thrusterScale - elaspedTime;
+        _slider.value = thrusterScale;
+
+        if (thrusterScale > 9.0f && thrusterScale <= 10.0f)
+        {
+            _slider.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = Color.green;
+        }
+        else if (thrusterScale > 7.0f && thrusterScale <= 9.0f)
+        {
+            _slider.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = Color.yellow;
+        }
+        else if (thrusterScale > 5.0f && thrusterScale <= 7.0f)
+        {
+            _slider.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = Color.cyan;
+        }
+        else if (thrusterScale > 3.0f && thrusterScale <= 5.0f)
+        {
+            _slider.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = Color.blue;
+        }
+        else if (thrusterScale <= 3.0f )
+        {
+            _slider.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = Color.red;
+        }
     }
 
 }
