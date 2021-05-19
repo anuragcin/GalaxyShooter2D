@@ -101,6 +101,7 @@ public class Player : MonoBehaviour
             _audioSource.clip = _laserAudioClip;
         }
 
+        Debug.Log("This is test");
 
     }
 
