@@ -32,9 +32,7 @@ public class Laser : MonoBehaviour
         {
             MoveUp();
         }
-
-        Debug.Log("This is another test");
-
+        
     }
 
     
