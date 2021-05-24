@@ -22,7 +22,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Text _gameoverText;
 
-    private int _totalAmmoCount = 100;
+    private int _totalAmmoCount;
+    private int _totalBaseCount = 100;
 
     [SerializeField]
     private Text _restartText;
@@ -35,7 +36,9 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         _scoreText.text = "Score: " + 0;
-        _ammoCount.text = "Total Ammo:" + _totalAmmoCount; 
+        _totalAmmoCount = _totalBaseCount;
+
+        _ammoCount.text = "Ammo Current/Max :" + $"{_totalAmmoCount}/{_totalBaseCount}"; 
 
         _liveDisplayImage.sprite = _liveSprite[3];
         _gameoverText.gameObject.SetActive(false);
@@ -90,7 +93,7 @@ public class UIManager : MonoBehaviour
     /// <returns></returns>
     public int TotalAmmoCount()
     {
-        return _totalAmmoCount;
+        return _totalBaseCount;
     }
 
     /// <summary>
@@ -99,7 +102,7 @@ public class UIManager : MonoBehaviour
     /// <param name="ammoCount"></param>
     public void UpdateAmmoCount(int ammoCount)
     {
-        _ammoCount.text = "Total Ammo:" + ammoCount;
+        _ammoCount.text = "Ammo Current/Max :" + $"{ammoCount}/{_totalBaseCount}";
         if (ammoCount==0)
         {
             StartCoroutine(FlashingTotalAmmoCount());
