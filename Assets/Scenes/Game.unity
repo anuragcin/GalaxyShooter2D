@@ -2240,7 +2240,7 @@ MonoBehaviour:
   - {fileID: 2551679183549092045, guid: 888b214512eb84acfb4283e8f0bdaea9, type: 3}
   _waveConfig:
   - {fileID: 11400000, guid: d34f633a26d964b5bab49f6e1bcae6e1, type: 2}
-  - {fileID: 11400000, guid: 449040ccac3944c09bf6df46f6956cd3, type: 2}
+  - {fileID: 11400000, guid: 07df42350414247cba4fe490ae24690c, type: 2}
 --- !u!4 &1597355068
 Transform:
   m_ObjectHideFlags: 0

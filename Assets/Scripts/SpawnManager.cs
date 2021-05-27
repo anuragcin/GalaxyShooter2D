@@ -36,12 +36,12 @@ public class SpawnManager : MonoBehaviour
     private IEnumerator SpawnAllWaves()
     {
         yield return new WaitForSeconds(2.0f);
-
+        Debug.Log(_waveConfig.Count);
         while (_stopSpawning == false)
         {
             for (int waveIndex = _startingWave; waveIndex < _waveConfig.Count; waveIndex++)
             {
-                var currentWave = _waveConfig[waveIndex];
+                 var currentWave = _waveConfig[waveIndex];
                 yield return StartCoroutine(SpawnAllEnemiesInWave(currentWave));
             }
 
