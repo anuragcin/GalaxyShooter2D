@@ -14,11 +14,68 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> _powerUps;
 
+    [SerializeField]
+    private List<WaveConfig> _waveConfig;
+
+    private int _startingWave = 0;
+
+
     public void StartSpawning()
     {
-        StartCoroutine(SpawnEnemyRoutine());
+        
+        StartCoroutine(SpawnAllWaves()); //Spawn All New Waves..
+
+        //StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerUpRoutine());
     }
+
+    /// <summary>
+    /// Spawn All Waves
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator SpawnAllWaves()
+    {
+        yield return new WaitForSeconds(2.0f);
+
+        while (_stopSpawning == false)
+        {
+            for (int waveIndex = _startingWave; waveIndex < _waveConfig.Count; waveIndex++)
+            {
+                var currentWave = _waveConfig[waveIndex];
+                yield return StartCoroutine(SpawnAllEnemiesInWave(currentWave));
+            }
+
+            yield return new WaitForSeconds(5.0f);
+        }
+    }
+
+    /// <summary>
+    /// Spawn All Enemies In Wave
+    /// </summary>
+    /// <param name="waveConfig"></param>
+    /// <returns></returns>
+    private IEnumerator SpawnAllEnemiesInWave(WaveConfig waveConfig)
+    {
+
+        for (int enemyCount=0; enemyCount < waveConfig.GetNoOfEnemies(); enemyCount++)
+        {
+            //Instantiate an GameObject-EnemyPrefab
+            GameObject newEmeny = Instantiate(
+                waveConfig.GetEnemyPrefab(),
+                waveConfig.GetWayPoints()[0].transform.position,
+                Quaternion.identity);
+            newEmeny.GetComponent<Enemy>().SetWaveConfig(waveConfig);
+            newEmeny.SetActive(true);
+            newEmeny.transform.parent = _enemyContainer.transform;
+           
+
+            yield return new WaitForSeconds(waveConfig.GetTimeBetweenSpawn());
+        }
+     
+    }
+
+
+  
 
     /// <summary>
     ///Spawn Game Object every 5 seconds

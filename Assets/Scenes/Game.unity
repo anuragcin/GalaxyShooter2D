@@ -685,7 +685,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519185430}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -3.13, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 1307066390}
@@ -1462,8 +1462,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 90, y: -50}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 178.6, y: -50}
+  m_SizeDelta: {x: 317.06955, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &980560622
 MonoBehaviour:
@@ -1497,7 +1497,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Total Ammo : '
+  m_Text: 'Ammo Current/Max : '
 --- !u!222 &980560623
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2238,6 +2238,9 @@ MonoBehaviour:
   - {fileID: 1499421240357705860, guid: f25568cc6942e4a83bf74e2d920370d7, type: 3}
   - {fileID: 3754542650116272850, guid: da21600c757ae4e2691686f5a7fa8023, type: 3}
   - {fileID: 2551679183549092045, guid: 888b214512eb84acfb4283e8f0bdaea9, type: 3}
+  _waveConfig:
+  - {fileID: 11400000, guid: d34f633a26d964b5bab49f6e1bcae6e1, type: 2}
+  - {fileID: 11400000, guid: 449040ccac3944c09bf6df46f6956cd3, type: 2}
 --- !u!4 &1597355068
 Transform:
   m_ObjectHideFlags: 0
@@ -2413,7 +2416,6 @@ MonoBehaviour:
   _gameoverText: {fileID: 1067061444}
   _restartText: {fileID: 763061790}
   _slider: {fileID: 856745351}
-  _sliderValue: 0
 --- !u!1 &1819320632
 GameObject:
   m_ObjectHideFlags: 0

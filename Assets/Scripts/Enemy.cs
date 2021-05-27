@@ -17,9 +17,27 @@ public class Enemy : MonoBehaviour
     private float _fireRate = 3.0f;
     private float _canFire = -1;
 
+
+    private WaveConfig _waveConfig;
+
+    private List<Transform> _wayPoints;
+    private int _wayPointIndex = 0;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
+        if (_waveConfig != null)
+        {
+           _wayPoints = _waveConfig.GetWayPoints();
+            if (_wayPoints.Count > 0)
+            {
+                //transform.position = _wayPoints[_wayPointIndex].transform.position;
+            }
+        }
+       
+
         _player = GameObject.Find("Player").GetComponent<Player>();
 
         _anim = GetComponent<Animator>();
@@ -45,7 +63,9 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CaculateMovement();
+        NewEnemyMovement();
+
+        //CaculateMovement();
 
         if (Time.time > _canFire)
         {
@@ -63,6 +83,32 @@ public class Enemy : MonoBehaviour
         }
 
     }
+
+    private void NewEnemyMovement()
+    {
+        if(_wayPointIndex <= _wayPoints.Count-1)
+        {
+            var targetPosition = _wayPoints[_wayPointIndex].transform.position;
+            var moveThisFrame = _waveConfig.GetMoveSpeed() * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveThisFrame);
+
+            if(transform.position == targetPosition)
+            {
+                _wayPointIndex++;
+            }
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void SetWaveConfig(WaveConfig waveConfig)
+    {
+        this._waveConfig = waveConfig;
+    }
+
+
 
     private void CaculateMovement()
     {
