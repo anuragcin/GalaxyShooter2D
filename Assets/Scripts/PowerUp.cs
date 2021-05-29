@@ -11,6 +11,9 @@ public class PowerUp : MonoBehaviour
     //1 - Speed
     //2 - Shields
     //3- Ammo
+    //4-Health PowerUp
+    //5-Sec PowerUp
+    //6-Negative PowerUp
     [SerializeField]
     private int _powerupID;
 
@@ -73,7 +76,7 @@ public class PowerUp : MonoBehaviour
                         Debug.Log("Ammo PowerUp Collected");
                         break;
                     case 4:
-                        // Ammo PowerUp
+                        // Health PowerUp
                         player.HealthPowerUpActive();
                         Debug.Log("Health PowerUp Collected");
                         break;
@@ -81,6 +84,11 @@ public class PowerUp : MonoBehaviour
                         // Secondary PowerUp
                         player.SecondaryPowerUpActive();
                         Debug.Log("Secondary PowerUp Collected");
+                        break;
+                    case 6:
+                        // Negative PowerUp
+                        player.NegativePowerUpActive();
+                        Debug.Log("Negative PowerUp Collected");
                         break;
                     default:
                         Debug.Log("Default..");
