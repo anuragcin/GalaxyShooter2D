@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
     public bool _isAmmoPowerUpActive = false;
     public bool _isHealthPowerUpActive = false;
     public bool _isSecondaryPowerUpActive = false;
+    public bool _isNegativePowerUpActive = false;
 
     [SerializeField]
     private GameObject _ShieldVisualer;
@@ -369,7 +370,29 @@ public class Player : MonoBehaviour
         }
         
     }
-        public void AddScore(int points)
+
+    /// <summary>
+    /// Negative PowerUp
+    /// </summary>
+    public void NegativePowerUpActive()
+    {
+        _isNegativePowerUpActive = true;
+        _speed = _baseSpeed / 2;
+        //Starts the coroutune
+        StartCoroutine(NegativePowerUpDownRoutine());
+    }
+
+    IEnumerator NegativePowerUpDownRoutine()
+    {
+        yield return new WaitForSeconds(7.0f);
+        _isNegativePowerUpActive = false;
+        _speed = _baseSpeed;
+    }
+    /// <summary>
+    /// Add Score
+    /// </summary>
+    /// <param name="points"></param>
+    public void AddScore(int points)
     {
         _score += points;
         _uiManager.UpdateScore(_score);
