@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
 {
@@ -28,35 +30,46 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (_waveConfig != null)
+        try
         {
-           _wayPoints = _waveConfig.GetWayPoints();
-            if (_wayPoints.Count > 0)
+            if (_waveConfig != null)
             {
-                //transform.position = _wayPoints[_wayPointIndex].transform.position;
+                _wayPoints = _waveConfig.GetWayPoints();
+                if (_wayPoints.Count == 0)
+                {
+                    Debug.LogError("Waypoints cannot be zero.");
+                }
+            }
+            else
+            {
+                Debug.LogError("WebConfig cannot be null");
+            }
+
+
+            _player = GameObject.FindWithTag("Player").GetComponent<Player>();
+
+            _anim = GetComponent<Animator>();
+
+            _audioSource = GetComponent<AudioSource>();
+
+            if (_player == null)
+            {
+                Debug.LogError("Player cannot be null");
+            }
+
+            if (_anim == null)
+            {
+                Debug.LogError("Animator cannot be null");
+            }
+
+            if (_audioSource == null)
+            {
+                Debug.LogError("Audio Source cannot be null on Enemy");
             }
         }
-       
-
-        _player = GameObject.Find("Player").GetComponent<Player>();
-
-        _anim = GetComponent<Animator>();
-
-        _audioSource = GetComponent<AudioSource>();
-
-        if (_player == null)
+        catch(NullReferenceException ex)
         {
-            Debug.LogError("Player cannot be null");
-        }
-
-        if (_anim == null)
-        {
-            Debug.LogError("Animator cannot be null");
-        }
-
-        if (_audioSource == null)
-        {
-            Debug.LogError("Audio Source cannot be null on Enemy");
+            Debug.Log($"Object was not set in the inspector {ex.Message.ToString()} ");
         }
     }
 
@@ -69,16 +82,19 @@ public class Enemy : MonoBehaviour
 
         if (Time.time > _canFire)
         {
-            _fireRate = Random.Range(3f, 7f);
+            _fireRate = Random.Range(2f, 5f);
             _canFire = Time.time + _fireRate;
 
-            GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
-
-            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
-
-            for (int i = 0; i < lasers.Length; i++)
+            if (_waveConfig != null)
             {
-                lasers[i].AssignEnemyLaser();
+                GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+
+                Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+
+                for (int i = 0; i < lasers.Length; i++)
+                {
+                    lasers[i].AssignEnemyLaser(_waveConfig.GetEnemyTypes());
+                }
             }
         }
 
