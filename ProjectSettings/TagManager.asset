@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Laser
   - GameManager
+  - EnemyShields
   layers:
   - Default
   - TransparentFX

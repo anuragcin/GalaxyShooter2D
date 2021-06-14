@@ -25,7 +25,12 @@ public class Enemy : MonoBehaviour
     private List<Transform> _wayPoints;
     private int _wayPointIndex = 0;
 
+    [SerializeField]
+    private GameObject _ShieldVisualer;
 
+    bool _isEnemyVisualized = false;
+
+    int _shiledStrength = 2;
 
     // Start is called before the first frame update
     void Start()
@@ -108,6 +113,16 @@ public class Enemy : MonoBehaviour
             var moveThisFrame = _waveConfig.GetMoveSpeed() * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveThisFrame);
 
+            //Randomly  0.1 percentage changes enemy get visualized..
+
+            float proabilityValue = Random.value;
+
+            if (proabilityValue > 0.99) //0.1 percentage
+            {
+                _isEnemyVisualized = true;
+                _ShieldVisualer.SetActive(true);
+            }
+
             if(transform.position == targetPosition)
             {
                 _wayPointIndex++;
@@ -142,41 +157,69 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //if Other is Player
-        //destroy the player and then destroy the enemy- ( us )
-        if (other.tag == "Player")
+        if (_isEnemyVisualized)
         {
-            //Damaging the Player..
-            Player player =  other.transform.GetComponent<Player>();
-            if (player != null)
+            _shiledStrength--;
+
+            //if Other is Player
+            //destroy the player and then destroy the enemy- ( us )
+            if (other.tag == "Player")
             {
-                player.Damage();
+                //Damaging the Player..
+                Player player = other.transform.GetComponent<Player>();
+                {
+                    player.Damage();
+                }
+                switch (_shiledStrength)
+                {
+                    case 1:
+                        _ShieldVisualer.GetComponent<Renderer>().material.color = Color.red;
+                        _ShieldVisualer.SetActive(false);
+                        break;
+                    case 0:
+                        _anim.SetTrigger("OnEnemyDeath");
+                        _speed = 0;
+
+                        _audioSource.Play();
+                        Destroy(this.gameObject, 2.4f);
+                        break;
+                    default:
+                        break;
+
+                }
             }
-            _anim.SetTrigger("OnEnemyDeath");
-            _speed = 0;
+            //if Other is laser
+            //destroy the laser and then destrot the enemy - ( us )
+            if (other.tag == "Laser")
+            {
 
-            _audioSource.Play();
-            Destroy(this.gameObject,2.4f);
+                Destroy(other.gameObject);
+
+                //Random Score Points and Call AddScore Method on Enemy using player object.
+                int randScorePoints = Random.Range(1, 30);
+                _player.AddScore(10);
+
+                switch (_shiledStrength)
+                {
+                    case 1:
+                        _ShieldVisualer.GetComponent<Renderer>().material.color = Color.red;
+                        _ShieldVisualer.SetActive(false);
+                        break;
+                    case 0:
+                        _anim.SetTrigger("OnEnemyDeath");
+                        _speed = 0;
+
+                        _audioSource.Play();
+
+                        Destroy(GetComponent<Collider2D>());
+                        Destroy(this.gameObject, 2.4f);  
+                        break;
+                    default:
+                        break;
+                }
+            }
+            Debug.Log("Collide With " + other.transform.name);
         }
-        //if Other is laser
-        //destroy the laser and then destrot the enemy - ( us )
-        if (other.tag == "Laser")
-        {
-
-            Destroy(other.gameObject);
-
-            //Random Score Points and Call AddScore Method on Enemy using player object.
-            int randScorePoints = Random.Range(1, 30);
-            _player.AddScore(10);
-
-            _anim.SetTrigger("OnEnemyDeath");
-            _speed = 0;
-
-            _audioSource.Play();
-
-            Destroy(GetComponent<Collider2D>());
-            Destroy(this.gameObject,2.4f);
-        }
-        Debug.Log("Collide With " + other.transform.name);
+        
     }
 }

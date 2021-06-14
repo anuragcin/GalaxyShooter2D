@@ -230,8 +230,8 @@ public class Player : MonoBehaviour
     /// </summary>
     public void Damage()
     {
-        if (_isShieldPowerUpActive)
-        {
+                if (_isShieldPowerUpActive)
+                {
             _shieldStrength--;
 
             switch (_shieldStrength)

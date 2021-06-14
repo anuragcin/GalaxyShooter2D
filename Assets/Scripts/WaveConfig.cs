@@ -25,7 +25,7 @@ public class WaveConfig : ScriptableObject
 
     [SerializeField]
     private string _enemyTypes = string.Empty;
-    
+
 
     public GameObject GetEnemyPrefab()
     {
@@ -68,6 +68,4 @@ public class WaveConfig : ScriptableObject
     {
         return _enemyTypes;
     }
-
-    
 }

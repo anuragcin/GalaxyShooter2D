@@ -66,8 +66,8 @@ public class SpawnManager : MonoBehaviour
                 Quaternion.identity);
             newEmeny.GetComponent<Enemy>().SetWaveConfig(waveConfig);
             newEmeny.SetActive(true);
+
             newEmeny.transform.parent = _enemyContainer.transform;
-           
 
             yield return new WaitForSeconds(waveConfig.GetTimeBetweenSpawn());
         }
