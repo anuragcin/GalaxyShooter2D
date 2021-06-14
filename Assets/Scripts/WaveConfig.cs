@@ -23,6 +23,10 @@ public class WaveConfig : ScriptableObject
     [SerializeField]
     private float _moveSpeed = 2f;
 
+    [SerializeField]
+    private string _enemyTypes = string.Empty;
+    
+
     public GameObject GetEnemyPrefab()
     {
         return _enemyPrefab;
@@ -60,4 +64,10 @@ public class WaveConfig : ScriptableObject
         return _moveSpeed;
     }
 
+    public string GetEnemyTypes()
+    {
+        return _enemyTypes;
+    }
+
+    
 }

@@ -621,6 +621,7 @@ MonoBehaviour:
   _isAmmoPowerUpActive: 0
   _isHealthPowerUpActive: 0
   _isSecondaryPowerUpActive: 0
+  _isNegativePowerUpActive: 0
   _ShieldVisualer: {fileID: 332306048}
   _rightEngine: {fileID: 79845974}
   _leftEngine: {fileID: 718075113}
@@ -2241,6 +2242,7 @@ MonoBehaviour:
   _waveConfig:
   - {fileID: 11400000, guid: d34f633a26d964b5bab49f6e1bcae6e1, type: 2}
   - {fileID: 11400000, guid: 07df42350414247cba4fe490ae24690c, type: 2}
+  - {fileID: 11400000, guid: c109f61e65bd644cf9e4bf837619fd84, type: 2}
 --- !u!4 &1597355068
 Transform:
   m_ObjectHideFlags: 0
@@ -2623,6 +2625,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Health_PowerUp
       objectReference: {fileID: 0}
+    - target: {fileID: 3754542650116272850, guid: da21600c757ae4e2691686f5a7fa8023,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da21600c757ae4e2691686f5a7fa8023, type: 3}
 --- !u!1001 &2551679182817643982
@@ -2691,6 +2698,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Sec_Powerup
+      objectReference: {fileID: 0}
+    - target: {fileID: 2551679183549092045, guid: 888b214512eb84acfb4283e8f0bdaea9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 888b214512eb84acfb4283e8f0bdaea9, type: 3}
