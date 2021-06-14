@@ -19,5 +19,5 @@ MonoBehaviour:
   _timeBetweenSpawn: 0.5
   _spawnRandomFactor: 0.3
   _noOfEnemies: 2
-  _moveSpeed: 6
+  _moveSpeed: 5
   _enemyTypes: Alpha
