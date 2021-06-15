@@ -39,11 +39,14 @@ public class SpawnManager : MonoBehaviour
         Debug.Log(_waveConfig.Count);
         while (_stopSpawning == false)
         {
-            for (int waveIndex = _startingWave; waveIndex < _waveConfig.Count; waveIndex++)
+            /*for (int waveIndex = _startingWave; waveIndex < _waveConfig.Count; waveIndex++)
             {
                 var currentWave = _waveConfig[waveIndex];
                 yield return StartCoroutine(SpawnAllEnemiesInWave(currentWave));
-            }
+            }*/
+            int randomEnemyWave = ChooseEnemyWave();
+            var currentWave = _waveConfig[randomEnemyWave];
+            yield return StartCoroutine(SpawnAllEnemiesInWave(currentWave));
 
             yield return new WaitForSeconds(5.0f);
         }
@@ -113,26 +116,9 @@ public class SpawnManager : MonoBehaviour
             //Random spawnPosition from -11 to 11 on x-axis, 7 on Y-axis and 0 on z-axis
             Vector3 spawnPosition = new Vector3(Random.Range(-11.0f, 11.0f), 7, 0);
 
-            
+            int randomPowerUp = ChoosePowerUp();
+            Instantiate(_powerUps[randomPowerUp], spawnPosition, Quaternion.identity);
 
-            float proabilityValue = Random.value;
-            //Instantiate an GameObject-EnemyPrefab
-            if (proabilityValue < 0.8f) //80%
-            { 
-
-                Debug.Log("Power Up Probability 80% -> " + _powerUps.Count.ToString());
-                int randomPowerUp = Random.Range(0, _powerUps.Count);
-                if (randomPowerUp != 5) //Except Secondary PowerUp
-                {
-                    Instantiate(_powerUps[randomPowerUp], spawnPosition, Quaternion.identity);
-                }
-            }
-            else if (proabilityValue > 0.7) //30%
-            {
-                Debug.Log("Power Up Probability 30%-> "+ _powerUps[5]); //Only for PowerUp 5 -> Secondary PowerUp
-                Instantiate(_powerUps[5], spawnPosition, Quaternion.identity);
-            }
-            
             yield return new WaitForSeconds(Random.Range(3,8));
 
         }
@@ -141,5 +127,104 @@ public class SpawnManager : MonoBehaviour
     public void OnPlayerDead()
     {
         _stopSpawning = true;
+    }
+
+
+    /// <summary>
+    /// Choose PowerUp
+    /// </summary>
+    /// <returns></returns>
+    private int ChoosePowerUp()
+    {
+        int _weightedTotal = 0;
+
+        int[] powerupTable =
+        {
+            60,
+            45,
+            20,
+            10,
+            8,
+            6,
+            2
+        };
+
+        int[] powerupToAward =
+        {
+            3,
+            5,
+            4,
+            2,
+            1,
+            0,
+            6
+        };
+
+        foreach (var item in powerupTable)
+        {
+            _weightedTotal += item;
+        }
+
+        int randomNumber = Random.Range(0, _weightedTotal);
+        var i = 0;
+
+        foreach (var weight in powerupTable)
+        {
+            if (randomNumber <= weight)
+            {
+                return powerupToAward[i];
+            }
+            else
+            {
+                i++;
+                randomNumber -= weight;
+            }
+        }
+        return powerupToAward[i];
+    }
+
+    /// <summary>
+    /// Choose Enemy..
+    /// </summary>
+    /// <returns></returns>
+    private int ChooseEnemyWave()
+    {
+        int _weightedTotal = 0;
+
+        int[] enemyWaveTable =
+        {
+            80,
+            65
+        };
+
+        int[] enemyWaveToAward =
+        {
+            1, //Beta
+            0 //Alpha
+        };
+
+        foreach (var item in enemyWaveTable)
+        {
+            _weightedTotal += item;
+        }
+
+        int randomNumber = Random.Range(0, _weightedTotal);
+        var i = 0;
+
+        foreach (var weight in enemyWaveTable)
+        {
+            if (randomNumber <= weight)
+            {
+                return enemyWaveToAward[i];
+            }
+            else
+            {
+                i++;
+                randomNumber -= weight;
+            }
+        }
+
+        return enemyWaveToAward[i];
+
     }
 }
