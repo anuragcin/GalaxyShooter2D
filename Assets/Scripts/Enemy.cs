@@ -31,6 +31,9 @@ public class Enemy : MonoBehaviour
     bool _isEnemyVisualized = false;
 
     int _shiledStrength = 2;
+    float _accuracy = 1.0f;
+
+    bool flag;
 
     // Start is called before the first frame update
     void Start()
@@ -109,9 +112,34 @@ public class Enemy : MonoBehaviour
     {
         if(_wayPointIndex <= _wayPoints.Count-1)
         {
-            var targetPosition = _wayPoints[_wayPointIndex].transform.position;
+            Vector3 targetPosition;
             var moveThisFrame = _waveConfig.GetMoveSpeed() * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveThisFrame);
+            if (_waveConfig.GetEnemyTypes() == "Alpha")
+            {
+                targetPosition = _player.transform.position;
+                Vector2 direction = targetPosition - this.transform.position;
+                Debug.DrawRay(this.transform.position, direction, Color.red);
+               
+
+                if (direction.magnitude < 9.0f)
+                {
+                    Debug.Log("Enemy when around 0.9 " + direction.magnitude);
+                    transform.position = Vector2.MoveTowards(this.transform.position, targetPosition, moveThisFrame);
+
+                    
+                    if (direction.magnitude > 0.5f)
+                    {
+                        Debug.Log("Enemy When around 0.7 " + direction.magnitude);
+                        Destroy(gameObject,3f);
+                    }
+                }
+            }
+            else
+            {
+                targetPosition = _wayPoints[_wayPointIndex].transform.position;
+                transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveThisFrame);
+            }
+            
 
             //Randomly  0.1 percentage changes enemy get visualized..
 
@@ -122,11 +150,12 @@ public class Enemy : MonoBehaviour
                 _isEnemyVisualized = true;
                 _ShieldVisualer.SetActive(true);
             }
-
-            if(transform.position == targetPosition)
-            {
-                _wayPointIndex++;
-            }
+            if (transform.position == targetPosition)
+             {
+               _wayPointIndex++;
+             }
+            
+          
         }
         else
         {
@@ -157,12 +186,9 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (_isEnemyVisualized)
-        {
-            _shiledStrength--;
 
-            //if Other is Player
-            //destroy the player and then destroy the enemy- ( us )
+        //if Other is Player
+        //destroy the player and then destroy the enemy- ( us )
             if (other.tag == "Player")
             {
                 //Damaging the Player..
@@ -170,29 +196,36 @@ public class Enemy : MonoBehaviour
                 {
                     player.Damage();
                 }
-                switch (_shiledStrength)
+                if (_isEnemyVisualized)
                 {
-                    case 1:
-                        _ShieldVisualer.GetComponent<Renderer>().material.color = Color.red;
-                        _ShieldVisualer.SetActive(false);
-                        break;
-                    case 0:
-                        _anim.SetTrigger("OnEnemyDeath");
-                        _speed = 0;
+                    _shiledStrength--;
 
-                        _audioSource.Play();
-                        Destroy(this.gameObject, 2.4f);
-                        break;
-                    default:
-                        break;
+                    switch (_shiledStrength)
+                    {
+                        case 1:
+                            _ShieldVisualer.GetComponent<Renderer>().material.color = Color.red;
+                            _ShieldVisualer.SetActive(false);
+                            break;
+                        case 0:
+                            _anim.SetTrigger("OnEnemyDeath");
+                            _speed = 0;
 
+                            _audioSource.Play();
+                            Destroy(this.gameObject, 2.4f);
+                            break;
+                        default:
+                            break;
+
+                    }
                 }
             }
-            //if Other is laser
-            //destroy the laser and then destrot the enemy - ( us )
-            if (other.tag == "Laser")
+        //if Other is laser
+        //destroy the laser and then destrot the enemy - ( us )
+        if (other.tag == "Laser")
+        {
+            if (_isEnemyVisualized)
             {
-
+                _shiledStrength--;
                 Destroy(other.gameObject);
 
                 //Random Score Points and Call AddScore Method on Enemy using player object.
@@ -212,7 +245,7 @@ public class Enemy : MonoBehaviour
                         _audioSource.Play();
 
                         Destroy(GetComponent<Collider2D>());
-                        Destroy(this.gameObject, 2.4f);  
+                        Destroy(this.gameObject, 2.4f);
                         break;
                     default:
                         break;

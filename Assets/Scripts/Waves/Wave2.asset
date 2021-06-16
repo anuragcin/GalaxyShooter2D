@@ -20,4 +20,4 @@ MonoBehaviour:
   _spawnRandomFactor: 0.3
   _noOfEnemies: 3
   _moveSpeed: 4
-  _enemyTypes: Delta
+  _enemyTypes: Beta

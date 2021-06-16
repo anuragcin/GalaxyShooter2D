@@ -193,8 +193,8 @@ public class SpawnManager : MonoBehaviour
 
         int[] enemyWaveTable =
         {
-            80,
-            65
+            40,
+            70
         };
 
         int[] enemyWaveToAward =
