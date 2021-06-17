@@ -31,10 +31,7 @@ public class Enemy : MonoBehaviour
     bool _isEnemyVisualized = false;
 
     int _shiledStrength = 2;
-    float _accuracy = 1.0f;
-
-    bool flag;
-
+   
     // Start is called before the first frame update
     void Start()
     {
