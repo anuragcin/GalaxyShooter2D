@@ -17,9 +17,6 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private List<WaveConfig> _waveConfig;
 
-    private int _startingWave = 0;
-
-
     public void StartSpawning()
     {
         
@@ -39,11 +36,6 @@ public class SpawnManager : MonoBehaviour
         Debug.Log(_waveConfig.Count);
         while (_stopSpawning == false)
         {
-            /*for (int waveIndex = _startingWave; waveIndex < _waveConfig.Count; waveIndex++)
-            {
-                var currentWave = _waveConfig[waveIndex];
-                yield return StartCoroutine(SpawnAllEnemiesInWave(currentWave));
-            }*/
             int randomEnemyWave = ChooseEnemyWave();
             var currentWave = _waveConfig[randomEnemyWave];
             yield return StartCoroutine(SpawnAllEnemiesInWave(currentWave));
@@ -193,12 +185,14 @@ public class SpawnManager : MonoBehaviour
 
         int[] enemyWaveTable =
         {
-            40,
-            70
+            90,
+            20,
+            50
         };
 
         int[] enemyWaveToAward =
         {
+            2, //SmartEnemy
             1, //Beta
             0 //Alpha
         };
